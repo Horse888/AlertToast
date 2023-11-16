@@ -124,8 +124,8 @@ public struct AlertToast: View{
         case image(_ name: String, _ color: Color)
         
         ///Loading indicator (Circular)
-        case loading
-        
+		case loading(_ color: Color)
+
         ///Only text alert
         case regular
     }
@@ -245,8 +245,11 @@ public struct AlertToast: View{
                         Image(name)
                             .renderingMode(.template)
                             .foregroundColor(color)
-                    case .loading:
-                        ActivityIndicator()
+                    case .loading(let color):
+                        ProgressView()
+							.foregroundColor(color)
+							.progressViewStyle(.circular)
+
                     case .regular:
                         EmptyView()
                     }
@@ -291,8 +294,10 @@ public struct AlertToast: View{
                     Image(name)
                         .hudModifier()
                         .foregroundColor(color)
-                case .loading:
-                    ActivityIndicator()
+				case .loading(let color):
+					ProgressView()
+						.foregroundColor(color)
+						.progressViewStyle(.circular)
                 case .regular:
                     EmptyView()
                 }
@@ -358,8 +363,10 @@ public struct AlertToast: View{
                     .foregroundColor(color)
                     .padding(.bottom)
                 Spacer()
-            case .loading:
-                ActivityIndicator()
+			case .loading(let color):
+				ProgressView()
+					.foregroundColor(color)
+					.progressViewStyle(.circular)
             case .regular:
                 EmptyView()
             }
@@ -575,7 +582,7 @@ public struct AlertToastModifier: ViewModifier{
             return
         }
         
-        if alert().type == .loading{
+		if case AlertToast.AlertType.loading(_) = alert().type {
             duration = 0
             tapToDismiss = false
         }
