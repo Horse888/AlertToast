@@ -128,6 +128,31 @@ public struct AlertToast: View{
 
         ///Only text alert
         case regular
+
+		public static func ==(l: Self, r: Self) -> Bool {
+			switch (l, r) {
+			case (.complete(_), .complete(_)):
+				return true
+
+			case (.error(_), .error(_)):
+				return true
+
+			case (.systemImage, .systemImage):
+				return true
+
+			case (.image, .image):
+				return true
+
+			case (.loading, .loading):
+				return true
+
+			case (.regular, .regular):
+				return true
+
+			default:
+				return false
+			}
+		}
     }
     
     /// Customize Alert Appearance
@@ -388,7 +413,7 @@ public struct AlertToast: View{
             }
         }
         .padding()
-        .withFrame(type != .regular && type != .loading)
+		.withFrame(type != .regular && type != .loading(.accentColor))
         .alertBackground(style?.backgroundColor ?? nil)
         .cornerRadius(10)
     }
